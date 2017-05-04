@@ -47,9 +47,9 @@ from math import ceil
 a = (lambda n: 1/n, lambda eps: ceil(1/eps))
 b = (lambda n: 1/n**2, lambda eps: ceil((1/eps)**.5))
 
-# If r is a rational number, bish(r) is a measured real number corresponding
+# If r is a rational number, toMeas(r) is a measured real number corresponding
 # to r
-def bish(r):
+def toMeas(r):
     def x(n): return r
     def k(eps): return 0
     return (x, k)
