@@ -44,8 +44,8 @@ from math import gcd
 from math import ceil
 
 # For ease of testing
-a = (lambda n: 1/n, lambda eps: ceil(1/eps))
-b = (lambda n: 1/n**2, lambda eps: ceil((1/eps)**.5))
+a = (lambda n: fr(1,n), lambda eps: ceil(1/eps))
+b = (lambda n: fr(1,n**2), lambda eps: ceil((1/eps)**.5))
 
 # If r is a rational number, toMeas(r) is a measured real number corresponding
 # to r
@@ -55,8 +55,8 @@ def toMeas(r):
     return (x, k)
 
 # If a and b are measured real numbers, a[0]->L at rate a[1] and b[0]->M at
-# rate b[1], then addB(a, b)->L+M at rate k'
-def addB(a, b):
+# rate b[1], then add(a, b)->L+M at rate k'
+def add(a, b):
     x, j = a
     y, k = b
     
@@ -72,8 +72,8 @@ def addB(a, b):
     return (z, kPrime)
 
 # If a and b are measured real numbers, a[0]->L at rate a[1] and b[0]->M at
-# rate b[1], then subB(a, b)->L-M at rate k'
-def subB(a, b):
+# rate b[1], then sub(a, b)->L-M at rate k'
+def sub(a, b):
     x, j = a
     y, k = b
     
@@ -88,8 +88,8 @@ def subB(a, b):
     return (z, kPrime)
 
 # If a and b are measured real numbers, a[0]->L at rate a[1] and b[0]->M at
-# rate b[1], then mulB(a, b)->LM at rate k'
-def mulB(a, b):
+# rate b[1], then mul(a, b)->LM at rate k'
+def mul(a, b):
     x, j = a
     y, k = b
     
@@ -104,8 +104,8 @@ def mulB(a, b):
     return (z, kPrime)
 
 # If a and b are measured real numbers, a[0]->L at rate a[1], b[0]->M at rate
-# b[1], and M != 0, then divB(a, b)->L/M at rate k'
-def divB(a, b):
+# b[1], and M != 0, then div(a, b)->L/M at rate k'
+def div(a, b):
     x, j = a
     y, k = b
     
@@ -119,16 +119,16 @@ def divB(a, b):
     
     return (z, kPrime)
 
-# If a is a measured real number and a[0]->L at rate a[1], then sinB(a)->sine(a)
-# at rate k', where sine(a) is the true sine of a
-def sinB(a):
+# If a is a measured real number and a[0]->L at rate a[1], then sine(a)->sin(a)
+# at rate k', where sin(a) is the true sine of a
+def sine(a):
     x, j = a
     def Q(n): return sinQ(x(n), fr(1,n))
     def kPrime(eps): return j(eps)
     return (Q, kPrime)
 
 # If x is a rational number and eps is a positive rational, then
-# |sinQ(x, eps) - sine(x)| < eps, where sine(x) is the true sine of x
+# |sinQ(x, eps) - sin(x)| < eps, where sin(x) is the true sine of x
 def sinQ(q, eps):
     n = R(q, eps)
     return P(n, q)
@@ -137,7 +137,7 @@ def sinQ(q, eps):
 # n to be used for P(n, x) st |P(n, q) - sin(q)| < eps, per Taylor's Theorem
 def R(q, eps):
     n = 0
-    R = eps + 1 #Something always greater than eps
+    R = eps + 1 # Arbitrary; something always greater than eps
     while (R >= eps):
         R = q**(n+1) * fr(1, fact(n+1))
         n += 1
